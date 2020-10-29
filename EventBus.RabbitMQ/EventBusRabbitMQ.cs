@@ -145,7 +145,7 @@ namespace EventBus.RabbitMQ
                 else
                 {
                     // finally failed, move the event to error center.
-                    Publish((IEvent)@event, _errorExchangeName, _prefix);
+                    await PublishAsync((IEvent)@event, _errorExchangeName, _prefix);
 
                     _logger.LogInformation("----- Moved event {@Event} to error center.", @event);
                 }
@@ -176,12 +176,12 @@ namespace EventBus.RabbitMQ
             }
         }
 
-        public void Publish(IEvent @event)
+        public async Task PublishAsync(IEvent @event)
         {
-            Publish(@event, _exchangeName);
+            await PublishAsync(@event, _exchangeName);
         }
 
-        private void Publish(IEvent @event, string exchangeName, string routingKeyPrefix = "")
+        private async Task PublishAsync(IEvent @event, string exchangeName, string routingKeyPrefix = "")
         {
             using (var channel = _publisherConnection.CreateModel())
             {
@@ -196,6 +196,8 @@ namespace EventBus.RabbitMQ
                 if (exchangeName != _errorExchangeName)
                     _logger.LogInformation("----- published event {@Event}", @event);
             }
+
+            await Task.CompletedTask;
         }
     }
 }

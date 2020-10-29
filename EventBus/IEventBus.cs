@@ -7,6 +7,6 @@ namespace EventBus
 {
     public interface IEventBus
     {
-        void Publish(IEvent @event);
+        Task PublishAsync(IEvent @event);
     }
 }

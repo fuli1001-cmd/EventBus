@@ -29,49 +29,63 @@ dotnet add package Fuli.EventBus.RabbitMQ.Extensions.Microsoft.DependencyInjecti
 1. Add EventBus service to IoC comtainer, the first parameter "EventBusTestDomain" is an application domain, events are handled in the same doamin, the second parameter "localhost" is the RabbitMQ server, you can also pass in RabbitMQ server port, userName and password as well.
 
     ```c#
-    services.AddEventBusRabbitMQ("EventBusTestDomain", "localhost");
-    ```
-
-2. Define an event, event is a POCO class which derive from IEvent.
-
-    ```c#
-    public class TestEvent : IEvent
+    public void ConfigureServices(IServiceCollection services)
     {
-        public string Words { get; set; }
+        services.AddEventBusRabbitMQ("EventBusTestDomain", "localhost");
     }
     ```
 
-3. Define an event handler class implement IEventHandler<T>, where T is an event class, write your logic in HandleAsync method.
+2. Define an event, event is a POCO class which derive from `IEvent`.
 
     ```c#
-    public class TestEventHandler : IEventHandler<TestEvent>
+    public class SomethingHappenedEvent : IEvent
     {
-        private readonly ILogger<TestEventHandler> _logger;
+        public string Message { get; set; }
+    }
+    ```
 
-        public TestEventHandler(ILogger<TestEventHandler> logger)
+3. Define an event handler class implement `IEventHandler<T>`, where `T` is an event class, write your logic in HandleAsync method.
+
+    ```c#
+    public class SomethingHappenedEventHandler : IEventHandler<SomethingHappenedEvent>
+    {
+        private readonly ILogger<SomethingHappenedEventHandler> _logger;
+
+        public SomethingHappenedEventHandler(ILogger<SomethingHappenedEventHandler> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task HandleAsync(TestEvent @event)
         {
-            _logger.LogInformation("***** Handling TestEvent");
+            _logger.LogInformation("***** Handling SomethingHappenedEvent");
 
-            await Task.Delay(new Random().Next(5) * 1000);
-            _logger.LogInformation(@event.Words);
+            await Task.Delay(new Random().Next(1) * 1000);
+            _logger.LogInformation(@event.Message);
 
-            _logger.LogInformation("***** TestEvent handled");
+            _logger.LogInformation("***** SomethingHappenedEvent handled");
         }
     }
     ```
 
-4. Publish an event, _eventBus is an IEventBus instance, you can inject it into your class. The event will be passed to it's handlers for processing, in case of the handler's transient failure, IEventBus will try 4 times with exponential backoff strategy, if it's still failed, the event message will be transferred to the error center, where you can resend it when the handler service is back online.
+4. Publish an event, _eventBus is an `IEventBus` instance, inject it into your class and using it's PublishAsync method to publish the event. The event will be passed to it's handlers for processing, in case of the handler's transient failure, `IEventBus` will try 4 times with exponential backoff strategy, if it's still failed, the event message will be transferred to the error center, where you can resend it when the handler service is back online. Below shows a background service which uses IEventBus to publish SomethingHappenedEvent.
 
     ```c#
-    public App(IEventBus eventBus)
+    public class BgService : BackgroundService
     {
-        _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+        private readonly IEventBus _eventBus;
+
+        public BgService(IEventBus eventBus)
+        {
+            _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            var @event = new SomethingHappenedEvent { Message = "Hello EventBus!" };
+            await _eventBus.PublishAsync(@event);
+
+            return Task.CompletedTask;
+        }
     }
-    var @event = new TestEvent { Words = "Hello EventBus!" };
-    _eventBus.Publish(@event);
     ```

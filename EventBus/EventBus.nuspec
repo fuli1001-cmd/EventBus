@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Fuli.EventBus</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>EventBus</title>
     <authors>Fuli</authors>
     <owners>Fuli</owners>
@@ -10,7 +10,7 @@
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/fuli1001-cmd/EventBus</projectUrl>
     <description>An event bus library for .NET and .NET core. This library contains only interfaces, use with it's implemention EventBus.RabbitMQ.</description>
-    <releaseNotes></releaseNotes>
+    <releaseNotes>Changed Publish to PublishAsync</releaseNotes>
     <copyright>Copyright 2020</copyright>
     <tags>EventBus ServiceBus Microservice</tags>
   </metadata>
