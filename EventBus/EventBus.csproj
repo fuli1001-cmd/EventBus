@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Fuli</Authors>
+    <Description>An event bus library for .Net. This library contains only interfaces, use with it's implemention EventBus.RabbitMQ.</Description>
+    <PackageProjectUrl>https://github.com/fuli1001-cmd/EventBus</PackageProjectUrl>
+    <PackageTags>EventBus ServiceBus Microservice</PackageTags>
+    <PackageReleaseNotes></PackageReleaseNotes>
+  </PropertyGroup>
+
+</Project>

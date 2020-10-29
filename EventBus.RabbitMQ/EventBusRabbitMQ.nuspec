@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>Fuli.EventBus.RabbitMQ</id>
+    <version>1.0.0</version>
+    <title>EventBus.RabbitMQ</title>
+    <authors>Fuli</authors>
+    <owners>Fuli</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/fuli1001-cmd/EventBus</projectUrl>
+    <description>EventBus RabbitMQ implementation</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>eventbus servicebus microservice</tags>
+	  <dependencies>
+		  <dependency id="Microsoft.Extensions.Hosting.Abstractions" version="3.1.9" />
+		  <dependency id="Microsoft.Extensions.Logging.Abstractions" version="3.1.9" />
+		  <dependency id="Newtonsoft.Json" version="12.0.3" />
+		  <dependency id="Polly" version="7.2.1" />
+		  <dependency id="RabbitMQ.Client" version="6.2.1" />
+		  <dependency id="Fuli.EventBus" version="1.0.0" />
+	  </dependencies>
+  </metadata>
+</package>

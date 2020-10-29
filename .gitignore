@@ -1,0 +1,7 @@
+.vs/
+**/bin
+**/obj
+Client1/
+Client2/
+Event/
+ErrorCenter/

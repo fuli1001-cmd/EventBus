@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>Fuli.EventBus.RabbitMQ.Extensions.Microsoft.DependencyInjection</id>
+    <version>1.0.0</version>
+    <title>EventBus.RabbitMQ.Extensions.Microsoft.DependencyInjection</title>
+    <authors>Fuli</authors>
+    <owners>Fuli</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/fuli1001-cmd/EventBus</projectUrl>
+    <description>EventBus.RabbitMQ extensions for .NET Core</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2020</copyright>
+	  <tags>EventBus ServiceBus Microservice</tags>
+	  <dependencies>
+		  <dependency id="Fuli.EventBus.Extensions.Microsoft.DependencyInjection" version="1.0.0" />
+		  <dependency id="Fuli.EventBus.RabbitMQ" version="1.0.0" />
+	  </dependencies>
+  </metadata>
+</package>
